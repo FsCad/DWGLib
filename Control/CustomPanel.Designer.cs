@@ -1,6 +1,6 @@
-﻿namespace DWGLib
+﻿namespace DWGLib.Controls
 {
-    partial class Panel
+    partial class CustomPanel
     {
         /// <summary> 
         /// Required designer variable.

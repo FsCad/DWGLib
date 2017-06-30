@@ -18,17 +18,17 @@ using Autodesk.AutoCAD.Windows;
 using System.Diagnostics;
 using Microsoft.WindowsAPICodePack.Shell;
 
-using DwgLib;
-using DwgLib.Class;
-using DwgLib.Dialog;
-using DwgLib.Controls;
+using DWGLib;
+using DWGLib.Class;
+using DWGLib.Dialog;
+using DWGLib.Controls;
 /*
 [assembly:CommandClass(typeof(DwgLib.Command.About))]
 [assembly:CommandClass(typeof(DwgLib.Command.DwgPalette))]
 [assembly:CommandClass(typeof(DwgLib.Command.LibConfig))]
 [assembly:CommandClass(typeof(DwgLib.Command.ThumnailProcess))]
 */
-namespace DwgLib.Command
+namespace DWGLib.Command
 {
     public static class DwgPalette
     {
@@ -56,7 +56,7 @@ namespace DwgLib.Command
         public static void ShowAbout()
         {
             AboutDlg AboutDlg = new AboutDlg();
-            AboutDlg.Icon = Properties.Resources.logo;
+            AboutDlg.Icon = DWGLib.Properties.Resources.logo;
             AboutDlg.ShowDialog();
         }
     }
@@ -68,8 +68,8 @@ namespace DwgLib.Command
             Form form = new Form();
             Setting settingControl = new Setting();
             form.MaximumSize = new Size(360, 600);
-            form.MinimumSize = new Size(200, 550);
-            form.Icon = Properties.Resources.logo;
+            form.MinimumSize = new Size(360, 600);
+            form.Icon = DWGLib.Properties.Resources.logo;
             settingControl.Dock = DockStyle.Fill;
             form.Controls.Add(settingControl);
             form.ShowDialog();
@@ -92,6 +92,22 @@ namespace DwgLib.Command
             }
             thumnailProcessDlg.RootPath.Text = "这里显示CAD文件夹路径";
             thumnailProcessDlg.Show();
+        }
+    }
+    public class PDFListCommand
+    {
+        [CommandMethod("PDFLib")]
+        public static void PDFLibDialog()
+        {
+            Form form = new Form();
+            PDFList PDFListInstant = new PDFList();
+            form.MaximumSize = new Size(360, 600);
+            form.MinimumSize = new Size(360, 600);
+            form.Padding = new Padding(10, 10, 10, 10);
+            form.Icon = DWGLib.Properties.Resources.logo;
+            PDFListInstant.Dock =  DockStyle.Fill;
+            form.Controls.Add(PDFListInstant);
+            form.ShowDialog();
         }
     }
 }

@@ -8,9 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-using DwgLib.Class;
+using DWGLib.Class;
 
-namespace DwgLib.Dialog
+namespace DWGLib.Dialog
 {
     public partial class ThumnailProcessDlg : Form
     {
@@ -69,6 +69,7 @@ namespace DwgLib.Dialog
                 }else if(thumnailProcess.Processing(fileList[i]) == 0) { 
                     this.StreamWriter.WriteLine(fileList[i] + ": 处理失败," + "无法获取缩略图");
                 }
+                this.StreamWriter.Flush();
                 this.bgWorker.ReportProgress(i);
                 System.Threading.Thread.Sleep(500);
             }
@@ -93,6 +94,8 @@ namespace DwgLib.Dialog
             this._processPer.Text = "100%";
             this.progressBar.Value = 100;
             this.CurrentProcessLabel.Text = "处理完成";
+            this.FileBrowser.Enabled = false;
+            this.startProcess.Enabled = false;
             this.startProcess.Enabled = true;
             this.StreamWriter.Close();
             this.StreamWriter.Dispose();

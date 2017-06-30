@@ -14,7 +14,7 @@ using System.Windows.Forms;
 using Autodesk.AutoCAD.GraphicsInterface;
 using System.IO;
 
-namespace DwgLib.Class
+namespace DWGLib.Class
 {
     public class MyDropTarget : Autodesk.AutoCAD.Windows.DropTarget
     {

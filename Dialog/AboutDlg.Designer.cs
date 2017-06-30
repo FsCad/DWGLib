@@ -1,4 +1,4 @@
-﻿namespace DwgLib.Dialog
+﻿namespace DWGLib.Dialog
 {
     partial class AboutDlg
     {

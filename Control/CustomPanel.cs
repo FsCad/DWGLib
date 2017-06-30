@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DWGLib
+namespace DWGLib.Controls
 {
-    public partial class Panel : UserControl
+    public partial class CustomPanel : UserControl
     {
-        public Panel()
+        public CustomPanel()
         {
             InitializeComponent();
         }

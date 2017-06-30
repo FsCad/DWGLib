@@ -17,9 +17,9 @@ using Autodesk.AutoCAD.Windows;
 using System.Diagnostics;
 using Microsoft.WindowsAPICodePack.Shell;
 
-using DwgLib.Dialog;
+using DWGLib.Dialog;
 
-namespace DwgLib.Class
+namespace DWGLib.Class
 {
     public class ThumnailProcess
     {

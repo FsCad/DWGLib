@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DwgLib.Properties {
+namespace DWGLib.Properties {
     using System;
     
     
@@ -75,6 +75,16 @@ namespace DwgLib.Properties {
         public static System.Drawing.Bitmap dwg_icon {
             get {
                 object obj = ResourceManager.GetObject("dwg_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap file_pdf {
+            get {
+                object obj = ResourceManager.GetObject("file_pdf", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

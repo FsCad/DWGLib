@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Xml;
 
-namespace DwgLib.Dialog
+namespace DWGLib.Dialog
 {
     public partial class Setting : UserControl
     {

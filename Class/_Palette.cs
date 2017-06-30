@@ -19,10 +19,10 @@ using Autodesk.AutoCAD.Windows;
 using System.Diagnostics;
 using Microsoft.WindowsAPICodePack.Shell;
 
-using DwgLib;
-using DwgLib.Controls;
-using DwgLib.Dialog;
-namespace DwgLib.Class
+using DWGLib;
+using DWGLib.Controls;
+using DWGLib.Dialog;
+namespace DWGLib.Class
 {
     class _Palette
     {
@@ -32,7 +32,7 @@ namespace DwgLib.Class
             this.PaletteLibrary = new PaletteSet("中建深圳装饰", Guid.NewGuid());
             this.PaletteLibrary.Size = new Size(600, 600);
             this.PaletteLibrary.MinimumSize = new Size(260, 400);
-            this.PaletteLibrary.Icon = DwgLib.Properties.Resources.logo;
+            this.PaletteLibrary.Icon = DWGLib.Properties.Resources.logo;
             InitLibrary(this.PaletteLibrary);
         }
         private static void InitLibrary(PaletteSet myPaletteSet)
@@ -83,7 +83,7 @@ namespace DwgLib.Class
                         string[] filePath = Directory.GetFiles(strArr2[j]);
                         if (filePath.Length != 0)
                         {
-                            List<Control> ItemList = new List<Control>();
+                           // List<Control> ItemList = new List<Control>();
                             for (int k = 0; k < filePath.Length; k++)
                             {
                                 string FileExtension = Path.GetExtension(filePath[k]).ToLower();
@@ -189,7 +189,6 @@ namespace DwgLib.Class
             floatPanel.AutoScroll = true;
             floatPanel.BackColor = Color.White;
             floatPanel.FlowDirection = System.Windows.Forms.FlowDirection.LeftToRight;
-
             return floatPanel;
         }
     }

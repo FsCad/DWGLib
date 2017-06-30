@@ -13,9 +13,9 @@ using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Windows;*/
-using DwgLib.Class;
+using DWGLib.Class;
 
-namespace DwgLib.Controls
+namespace DWGLib.Controls
 {
     public partial class DwgThumnail : UserControl
     {
@@ -28,9 +28,12 @@ namespace DwgLib.Controls
 
         private void DwgThumnail_Click(object sender, EventArgs e)
         {
-            //MessageBox.Show(this.filePath);
+            MouseEventArgs tempEvt = e as MouseEventArgs;
+            if(tempEvt.Button == MouseButtons.Right)
+            {
+                this.ContextMenu.Show(this,tempEvt.Location);
+            }
         }
-
         private void Thumnail_Mouse_Enter(object sender, EventArgs e)
         {
             // FixedSingle;
@@ -59,7 +62,7 @@ namespace DwgLib.Controls
         {
             PictureBox pictureBox = sender as PictureBox;
             this.DwgTooltip.ToolTipIcon = ToolTipIcon.None;
-            this.DwgTooltip.Show(this.FileName.Text, pictureBox, 3000);
+            this.DwgTooltip.Show(this.FileName.Text, pictureBox, 2000);
         }
 
         private void DragDwgFile(object sender, System.Windows.Forms.MouseEventArgs e)
@@ -71,23 +74,10 @@ namespace DwgLib.Controls
             }
         }
 
-        private void _Context_Menu(object sender, MouseEventArgs e)
-        {
-            if(e.Button == MouseButtons.Right)
-            {
-
-                this.ContextMenuStrip.Show(e.X,e.Y);
-            }
-        }
-
-        private void ContextMenu_Opening(object sender, CancelEventArgs e)
-        {
-            MessageBox.Show("Open");
-        }
-
         private void _ContextMenu_Item_Click(object sender, EventArgs e)
         {
 
+            this.ContextMenu.Hide();
         }
     }
 }
