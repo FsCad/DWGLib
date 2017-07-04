@@ -77,6 +77,7 @@ namespace DWGLib.Class
                 MessageBox.Show("选择的路径名称无效");
                 return Files;
             }
+            //只能递归三个层级
             if (this.DirectoryCount > 3)
             {
                 MessageBox.Show("搜索路径过长，请减少文件路径长度");
@@ -90,7 +91,6 @@ namespace DWGLib.Class
             string fileName = Path.GetFileNameWithoutExtension(path);
             string dir = Path.GetDirectoryName(path);
             Database db = new Database(false, true);
-
             try
             {
                 db.ReadDwgFile(path, FileOpenMode.OpenForReadAndReadShare, true, "13343408355x");
@@ -110,9 +110,18 @@ namespace DWGLib.Class
                             if (thumnail != null)
                             {
                                 Bitmap newThumnail = ResizeTo(thumnail, new Size(thumnail.Width * 4, thumnail.Height * 4));
-                                newThumnail.Save(dir + "/" + fileName + ".jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
-                                tra.Commit();
-                                return true;
+                                try
+                                {
+                                    newThumnail.Save(dir + "/" + fileName + ".jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+                                    tra.Commit();
+                                    return true;
+                                }
+                                catch(System.Exception ex)
+                                {
+                                    tra.Commit();
+                                    MessageBox.Show(ex.Message);
+                                    return false;
+                                }
                             }
                             else
                             {
@@ -132,15 +141,18 @@ namespace DWGLib.Class
                         return false;
                     }
                 }
-                catch (Autodesk.AutoCAD.Runtime.Exception e)
+                catch (Autodesk.AutoCAD.Runtime.Exception ex)
                 {
+                    MessageBox.Show(ex.Message);
                     tra.Abort();
+                    db.Dispose();
                     return false;
                 }
-                db.Dispose();
             }
-            catch (Autodesk.AutoCAD.Runtime.Exception e)
+            catch (Autodesk.AutoCAD.Runtime.Exception ex)
             {
+                MessageBox.Show(ex.Message);
+                db.Dispose(); 
                 return false;
             }
         }

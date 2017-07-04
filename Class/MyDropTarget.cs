@@ -75,7 +75,7 @@ namespace DWGLib.Class
                 DocLock.Dispose();
             }
         }
-        private void InsertDwgFile(Point3d Position)
+        public void InsertDwgFile(Point3d Position)
         {
             string BlockName = Path.GetFileNameWithoutExtension(this.filePath);
             BlockTable blockTable = trans.GetObject(currentDwg.BlockTableId, OpenMode.ForWrite) as BlockTable;

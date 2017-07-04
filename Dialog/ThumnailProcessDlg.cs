@@ -18,7 +18,7 @@ namespace DWGLib.Dialog
         public bool isProcessed;
         public string CurrentProcess;
         ThumnailProcess thumnailProcess;
-        private string filePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/" + "output.log";
+        private string filePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\" + "output.log";
         private StreamWriter StreamWriter;
         List<string> fileList;
         public ThumnailProcessDlg(int ProcessPercent,bool isProcess,string CurrentProcess)
@@ -66,8 +66,15 @@ namespace DWGLib.Dialog
                 this.CurrentProcess = fileList[i];
                 if (thumnailProcess.Processing(fileList[i]) == 1){
                     this.StreamWriter.WriteLine(fileList[i] + ": 处理成功");
-                }else if(thumnailProcess.Processing(fileList[i]) == 0) { 
+                }else if(thumnailProcess.Processing(fileList[i]) == 0) {
+                    
                     this.StreamWriter.WriteLine(fileList[i] + ": 处理失败," + "无法获取缩略图");
+                    break;
+                }
+                else
+                {
+                    this.StreamWriter.WriteLine(fileList[i] + ": 处理失败," + "当前目录下无DWG文件");
+                    break;
                 }
                 this.StreamWriter.Flush();
                 this.bgWorker.ReportProgress(i);
@@ -96,7 +103,6 @@ namespace DWGLib.Dialog
             this.CurrentProcessLabel.Text = "处理完成";
             this.FileBrowser.Enabled = false;
             this.startProcess.Enabled = false;
-            this.startProcess.Enabled = true;
             this.StreamWriter.Close();
             this.StreamWriter.Dispose();
             this.isProcessed = false;

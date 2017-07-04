@@ -20,6 +20,7 @@ namespace DWGLib.Controls
     public partial class DwgThumnail : UserControl
     {
         public string filePath = "";
+       
         public DwgThumnail()
         {
             InitializeComponent();
@@ -29,9 +30,12 @@ namespace DWGLib.Controls
         private void DwgThumnail_Click(object sender, EventArgs e)
         {
             MouseEventArgs tempEvt = e as MouseEventArgs;
-            if(tempEvt.Button == MouseButtons.Right)
+            if (tempEvt.Button == MouseButtons.Right)
             {
-                this.ContextMenu.Show(this,tempEvt.Location);
+                this.ContextMenu.Show(this, tempEvt.Location);
+            }
+            else {
+                this.InsertDWGFile("");
             }
         }
         private void Thumnail_Mouse_Enter(object sender, EventArgs e)
@@ -78,6 +82,12 @@ namespace DWGLib.Controls
         {
 
             this.ContextMenu.Hide();
+        }
+        private void InsertDWGFile(string path) {
+            //TODO
+            MyDropTarget Target = new MyDropTarget(path);
+            //  Target.Insert
+            MessageBox.Show("该功能尚在实现当中");
         }
     }
 }

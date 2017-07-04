@@ -51,8 +51,7 @@ namespace DWGLib.Class
             for (int i = 0; i < strArr.Length; i++)
             {
                 Panel customPanel = new Panel();
-                string paletteName = Path.GetFileNameWithoutExtension(strArr[i]);
-
+                string paletteName = GetPaletteName(Path.GetFileNameWithoutExtension(strArr[i]));
                 myPaletteSet.Add(paletteName, customPanel);
                 string[] strArr2 = Directory.GetDirectories(strArr[i]);
 
@@ -62,7 +61,8 @@ namespace DWGLib.Class
                     Tab.Dock = DockStyle.Fill;
                     for (int j = 0; j < strArr2.Length; j++)
                     {
-                        string tabName = Path.GetFileNameWithoutExtension(strArr2[j]);
+                        string FolderName = Path.GetFileNameWithoutExtension(strArr2[j]);
+                        string tabName = GetTabName(FolderName);
                         TabPage tabPage = new TabPage(tabName);
                         Tab.Multiline = true;
                         Tab.Controls.Add(tabPage);
@@ -93,12 +93,14 @@ namespace DWGLib.Class
                                 if (FileExtension == ".jpg")
                                 {
                                     DwgThumnail item = new DwgThumnail();
-                                    item.Width = 70;
-                                    item.Height = 80;
+                                    item.Width = 80;
+                                    item.Height = 90;
+                                   
                                     item.filePath = Directory + "/" + FileName + ".dwg";
                                     item.FileName.Text = FileName;
                                     item.Thumnail.Height = 60;
                                     item.Thumnail.Width = 70;
+                                    item.Thumnail.Margin = new Padding(5, 10, 5, 10);
                                     item.Thumnail.BackgroundImage = Bitmap.FromFile(filePath[k]);
                                     floatPanel.Controls.Add(item);
 
@@ -140,6 +142,20 @@ namespace DWGLib.Class
                     }
                 }
             }
+        }
+        private static string GetTabName(string FolderName) {
+            string[] temp = FolderName.Split('_');
+            if (temp.Length == 1)
+            {
+                return temp[0];
+            }
+            else
+            {
+                return temp[1];
+            }
+        }
+        private static string GetPaletteName(string FolderName) {
+            return GetTabName(FolderName);
         }
         public static string GetLibPath()
         {

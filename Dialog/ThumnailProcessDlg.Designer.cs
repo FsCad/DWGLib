@@ -110,9 +110,9 @@
             this._processPer.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this._processPer.Location = new System.Drawing.Point(475, 106);
             this._processPer.Name = "_processPer";
-            this._processPer.Size = new System.Drawing.Size(26, 17);
+            this._processPer.Size = new System.Drawing.Size(24, 17);
             this._processPer.TabIndex = 3;
-            this._processPer.Text = "0%";
+            this._processPer.Text = "*%";
             this._processPer.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // ThumnailProcessDlg
