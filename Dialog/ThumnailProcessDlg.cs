@@ -18,13 +18,14 @@ namespace DWGLib.Dialog
         public bool isProcessed;
         public string CurrentProcess;
         ThumnailProcess thumnailProcess;
-        private string filePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\" + "output.log";
+        private string filePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\" + "output.log";
         private StreamWriter StreamWriter;
         List<string> fileList;
         public ThumnailProcessDlg(int ProcessPercent,bool isProcess,string CurrentProcess)
         {
             InitializeComponent();
             this.thumnailProcess = new ThumnailProcess();
+            this.startProcess.Enabled = false;
         }
         private void Folder_Browser(object sender, EventArgs e)
         {
@@ -107,6 +108,17 @@ namespace DWGLib.Dialog
             this.StreamWriter.Dispose();
             this.isProcessed = false;
             MessageBox.Show("处理完成,处理结果请查看文件：" + this.filePath);
+        }
+
+        private void RootPath_TextChanged(object sender, EventArgs e)
+        {
+            if (Directory.Exists(this.RootPath.Text))
+            {
+                this.startProcess.Enabled = true;
+            }else
+            {
+                this.startProcess.Enabled = false;
+            }
         }
     }
 }

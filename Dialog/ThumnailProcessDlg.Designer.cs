@@ -83,6 +83,7 @@
             this.RootPath.TabIndex = 2;
             this.RootPath.Text = "这里显示文件处理根目录";
             this.RootPath.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.RootPath.TextChanged += new System.EventHandler(this.RootPath_TextChanged);
             // 
             // CurrentProcessLabel
             // 
@@ -110,9 +111,9 @@
             this._processPer.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this._processPer.Location = new System.Drawing.Point(475, 106);
             this._processPer.Name = "_processPer";
-            this._processPer.Size = new System.Drawing.Size(24, 17);
+            this._processPer.Size = new System.Drawing.Size(33, 17);
             this._processPer.TabIndex = 3;
-            this._processPer.Text = "*%";
+            this._processPer.Text = "-- %";
             this._processPer.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // ThumnailProcessDlg

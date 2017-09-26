@@ -70,6 +70,7 @@ namespace DWGLib.Class
             }
             catch (System.Exception ex)
             {
+                MessageBox.Show(ex.Message.ToString());
                 trans.Abort();
                 trans.Dispose();
                 DocLock.Dispose();

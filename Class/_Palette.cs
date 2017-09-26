@@ -17,14 +17,14 @@ using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Windows;
 using System.Diagnostics;
-using Microsoft.WindowsAPICodePack.Shell;
+//using Microsoft.WindowsAPICodePack.Shell;
 
 using DWGLib;
 using DWGLib.Controls;
 using DWGLib.Dialog;
 namespace DWGLib.Class
 {
-    class _Palette
+    public class _Palette
     {
         public PaletteSet PaletteLibrary;
         public _Palette()
@@ -37,14 +37,10 @@ namespace DWGLib.Class
         }
         private static void InitLibrary(PaletteSet myPaletteSet)
         {
-            string libraryPath;
-            if (GetLibPath() != "")
+            string libraryPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)+ @"\Resource\library";
+            if (!Directory.Exists(libraryPath))
             {
-                libraryPath = GetLibPath();
-            }
-            else
-            {
-                MessageBox.Show("无法加载图库文件，请指定正确的图库加载路径", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("无法加载图库", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             string[] strArr = Directory.GetDirectories(libraryPath);
@@ -156,28 +152,6 @@ namespace DWGLib.Class
         }
         private static string GetPaletteName(string FolderName) {
             return GetTabName(FolderName);
-        }
-        public static string GetLibPath()
-        {
-            string settingPath = Directory.GetCurrentDirectory() + @"\" + "setting.xml";
-            string libraryPath = Directory.GetCurrentDirectory() + @"\" + "library";
-            if (!File.Exists(settingPath))
-            {
-                Setting.WritePathInXML(libraryPath);
-            }
-            else
-            {
-                libraryPath = Setting.GetDwgLibPath();
-            }
-            libraryPath = Path.GetFullPath(libraryPath);
-            if (!Directory.Exists(libraryPath))
-            {
-                return "";
-            }
-            else
-            {
-                return libraryPath;
-            }
         }
         private static Database GetFileByPrefix(string path, string prefix)
         {

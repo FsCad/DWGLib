@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Drawing;
-
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
@@ -16,35 +15,66 @@ using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Windows;
 using Autodesk.AutoCAD.Customization;
 
-namespace DWGLib
+namespace DWGLib.UI
 {
-    class LoadMenu
-    {
-        const string CUIPATH = "./gui/ui.cuix";
-        Editor ed;
-        string mainCui;
-        CustomizationSection cs;
-        PartialCuiFileCollection pcfc;
-        public LoadMenu()
+    class LoadCUIFile {
+      
+        public string cuiPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)+ @"\ui.cuix";
+        Editor ed = Application.DocumentManager.MdiActiveDocument.Editor;
+        public LoadCUIFile()
         {
-            Menu mainMenu = Autodesk.AutoCAD.ApplicationServices.Application.MenuBar as Menu;
-            MenuItem item1 = new MenuItem("Hudson");
-            mainMenu.MenuItems.Add(item1);
+           
+           
         }
-        protected void InitializeRibbonMenu()
+        public void Load()
         {
-            if (!pcfc.Contains(CUIPATH))
+            this.LoadFile(cuiPath);
+        }
+        public bool FindCuiFile(string root)
+        {
+            if (Directory.Exists(cuiPath))
             {
-                
+                ed.WriteMessage("中建深圳装饰图库菜单文件不存在");
+                return false;
+            }else
+            {
+                return true;
             }
         }
-        protected void LoadCUI()
+        public bool LoadFile(string path)
         {
-            
-        }
-        protected void CreateNormalMenu()
-        {
+            if (FindCuiFile(path))
+            {
+                CustomizationSection cus = new CustomizationSection(path, true);
+                CustomizationSection c = new CustomizationSection();
+                string AcadPath = Application.GetSystemVariable("MENUNAME").ToString() + ".cuix";
+                CustomizationSection acadCustomSection = new CustomizationSection(AcadPath);
+                PartialCuiFileCollection cusparfile =  acadCustomSection.PartialCuiFiles;
 
+                if(cusparfile.Contains(path)){
+                    ed.WriteMessage("程序中已经包含：" + path + " 的文件，同名文件将不再次加载");
+                }else
+                {
+                    this.LoadCusCUI(path);
+                }
+                return true;
+            }else
+            {
+                System.Windows.Forms.MessageBox.Show("False");
+                return false;
+            }
+        }
+        private void LoadCusCUI(string path)
+        {
+           
+            Autodesk.AutoCAD.ApplicationServices.Document doc = Application.DocumentManager.MdiActiveDocument;
+
+            object oldCmdEcho = Application.GetSystemVariable("CMDECHO");
+            object oldFileDia = Application.GetSystemVariable("FILEDIA");
+            Application.SetSystemVariable("CMDECHO", 1);
+            Application.SetSystemVariable("FILEDIA", 0);
+            string LoadCUICommand = "cuiload " + path + " filedia 1";
+            doc.SendStringToExecute(LoadCUICommand, true,false,true);
         }
     }
 }

@@ -14,19 +14,29 @@ using System.Diagnostics;
 
 namespace DWGLib.Controls
 {
-    public partial class PDFList : UserControl
+    public partial class PDFList
     {
         //路径会自动进行转换
-        public string BaseUrl = Environment.CurrentDirectory + @"\PDF";
+        public string BaseUrl = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\Resource\PDF";
+        public Control OutterPanel = new Control();
+        private FlowLayoutPanel InnerPanel = new FlowLayoutPanel();
         public PDFList()
         {
-            InitializeComponent();
-            LoadPDF_Item();
+            OutterPanel.Dock = DockStyle.Fill;
+            OutterPanel.Padding = new Padding(12);
+            this.OutterPanel.Controls.Add(this.CreateInnerControl());
         }
-
-        private void LoadPDF_Item()
+        private FlowLayoutPanel CreateInnerControl()
         {
+            if (!Directory.Exists(BaseUrl))
+            {
+                MessageBox.Show("无法加载指定位置的文档", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return new FlowLayoutPanel();
+            }
             string[] Files = Directory.GetFiles(BaseUrl);
+            List<PDFThumnail> PDFThumnailList = new List<PDFThumnail>();
+            InnerPanel.AutoScroll = true;
+            InnerPanel.Dock = DockStyle.Fill;
             if (Files.Length != 0)
             {
                 for (int index = 0; index < Files.Length; index++)
@@ -36,17 +46,20 @@ namespace DWGLib.Controls
                     lb.Thumnail.BackgroundImageLayout = ImageLayout.Center;
                     lb.BaseUrl = BaseUrl;
                     lb.FileName.Text = Path.GetFileName(Files[index]);
-                    this.PDFList_Container.Controls.Add(lb);
+                    PDFThumnailList.Add(lb);
 
                 }
+                InnerPanel.Controls.AddRange(PDFThumnailList.ToArray());
             }
-            else {
+            else
+            {
                 Label LabelInstant = new Label();
                 LabelInstant.Text = "当前没有可用的文档";
                 LabelInstant.Anchor = AnchorStyles.Left; ;
                 LabelInstant.Dock = DockStyle.Right;
-                this.PDFList_Container.Controls.Add(LabelInstant);
+                InnerPanel.Controls.Add(LabelInstant);
             }
+            return InnerPanel;
         }
     }
 }

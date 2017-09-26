@@ -35,12 +35,10 @@ namespace DWGLib.Controls
                 this.ContextMenu.Show(this, tempEvt.Location);
             }
             else {
-                this.InsertDWGFile("");
             }
         }
         private void Thumnail_Mouse_Enter(object sender, EventArgs e)
         {
-            // FixedSingle;
             PictureBox PictureBox = (PictureBox)sender;
             this.BorderStyle = BorderStyle.FixedSingle;
         }
@@ -48,7 +46,6 @@ namespace DWGLib.Controls
         private void Thumbnail_MouseLeave(object sender, EventArgs e)
         {
             PictureBox PictureBox = (PictureBox)sender;
-            //this.BackColor = Color.White;
             this.BorderStyle = BorderStyle.None;
         }
 
@@ -82,12 +79,6 @@ namespace DWGLib.Controls
         {
 
             this.ContextMenu.Hide();
-        }
-        private void InsertDWGFile(string path) {
-            //TODO
-            MyDropTarget Target = new MyDropTarget(path);
-            //  Target.Insert
-            MessageBox.Show("该功能尚在实现当中");
         }
     }
 }

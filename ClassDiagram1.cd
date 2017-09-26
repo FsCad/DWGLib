@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DWGLib.Class._Palette" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAIAAAEAQCAAAAAAAAAAAAgE=</HashCode>
+      <FileName>Class\_Palette.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DWGLib.Class.MyDropTarget" Collapsed="true">
+    <Position X="7.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IKAAAAAAAAhBgAAAAAAABAAAAAACAEAAAAAQABAAEAA=</HashCode>
+      <FileName>Class\MyDropTarget.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DWGLib.Class.ThumnailProcess">
+    <Position X="4" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AiABAAAAAAAAAAAASAAAAAACAAAAAAAAAAAAADAAAIA=</HashCode>
+      <FileName>Class\ThumnailProcess.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DWGLib.UI.LoadCUIFile" Collapsed="true">
+    <Position X="5.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIACQABAA=</HashCode>
+      <FileName>Class\Menu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DWGLib.Command.DwgPalette" Collapsed="true">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Command.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DWGLib.Command.About" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Command.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DWGLib.Command.LibConfig" Collapsed="true">
+    <Position X="4" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Command.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DWGLib.Command.ThumnailProcess" Collapsed="true">
+    <Position X="5.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAACAAAAA=</HashCode>
+      <FileName>Command.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DWGLib.Command.PDFListCommand" Collapsed="true">
+    <Position X="2.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Command.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DWGLib.Controls.CustomPanel" Collapsed="true">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAACAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Control\CustomPanel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DWGLib.Controls.DwgThumnail" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAFCIAAAASAAAAAAAACABCECAAAAAFAAAAQAAABABAg=</HashCode>
+      <FileName>Control\dwgThumnail.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DWGLib.Controls.PDFList" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAABAAAACAAAACAQAAAAAgAAAAgAAAAAA=</HashCode>
+      <FileName>Control\PDFList.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DWGLib.Controls.PDFThumnail" Collapsed="true">
+    <Position X="4" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAEABAIAACAAAAAAAACQACkCAAAAAAAgAAAgAABAAAg=</HashCode>
+      <FileName>Control\PDFThumnail.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DWGLib.Dialog.Setting" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAACAQJBEACACGAgACAAAIAAAAAAAAAEACQAA=</HashCode>
+      <FileName>Control\Setting.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DWGLib.Dialog.AboutDlg" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>kIACAAgAACAgCAUAAgCAAAADAAAAEIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Dialog\AboutDlg.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DWGLib.Dialog.ThumnailProcessDlg" Collapsed="true">
+    <Position X="7.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAEAASAiAAAAAQACCAAEICABAAAEAghABAQAAAA4g=</HashCode>
+      <FileName>Dialog\ThumnailProcessDlg.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DWGLib.init.Installer" Collapsed="true">
+    <Position X="2.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAACAABAAEAACAAAACAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Installer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DWGLib.init.PluginInit" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAACAAAAAABAAAAAAAAAAAAAE=</HashCode>
+      <FileName>Installer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="DWGLib.Properties.Resources" Collapsed="true">
+    <Position X="7.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAEAACAAAAABEEAAAQAAAAAAAgAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DWGLib.Properties.Settings" Collapsed="true">
+    <Position X="2.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

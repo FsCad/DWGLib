@@ -29,6 +29,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AcCoreMgd">
       <HintPath>C:\ObjectARX 2015\inc\AcCoreMgd.dll</HintPath>
@@ -50,21 +53,9 @@
       <HintPath>C:\ObjectARX 2015\inc\AcMgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="itextsharp, Version=5.5.11.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
-      <HintPath>packages\iTextSharp.5.5.11\lib\itextsharp.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="MetroFramework">
       <HintPath>C:\Users\ZJ3\Documents\Visual Studio 2015\Projects\GrasshopperPlugin\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.dll</HintPath>
       <Private>False</Private>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>packages\Microsoft.WindowsAPICodePack.Core.1.1.0\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore">
       <Private>False</Private>
@@ -91,18 +82,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class\PDFList1.cs" />
     <Compile Include="Class\_Palette.cs" />
     <Compile Include="Control\PDFThumnail.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Control\PDFThumnail.Designer.cs">
       <DependentUpon>PDFThumnail.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Control\PDFList_Control.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Control\PDFList_Control.Designer.cs">
-      <DependentUpon>PDFList_Control.cs</DependentUpon>
     </Compile>
     <Compile Include="Dialog\AboutDlg.cs">
       <SubType>Form</SubType>
@@ -117,19 +103,19 @@
       <DependentUpon>dwgThumnail.cs</DependentUpon>
     </Compile>
     <Compile Include="Class\ThumnailProcess.cs" />
-    <Compile Include="Control\PDFList.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Control\PDFList.Designer.cs">
-      <DependentUpon>PDFList.cs</DependentUpon>
-    </Compile>
     <Compile Include="Dialog\ThumnailProcessDlg.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Dialog\ThumnailProcessDlg.Designer.cs">
       <DependentUpon>ThumnailProcessDlg.cs</DependentUpon>
     </Compile>
-    <Compile Include="Main.cs" />
+    <Compile Include="Installer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Installer.Designer.cs">
+      <DependentUpon>Installer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Command.cs" />
     <Compile Include="Class\Menu.cs" />
     <Compile Include="Class\MyDropTarget.cs" />
     <Compile Include="Control\CustomPanel.cs">
@@ -160,9 +146,6 @@
     <EmbeddedResource Include="Control\PDFThumnail.resx">
       <DependentUpon>PDFThumnail.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Control\PDFList_Control.resx">
-      <DependentUpon>PDFList_Control.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Dialog\AboutDlg.resx">
       <DependentUpon>AboutDlg.cs</DependentUpon>
     </EmbeddedResource>
@@ -175,9 +158,6 @@
     <EmbeddedResource Include="Control\Setting.resx">
       <DependentUpon>Setting.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Control\PDFList.resx">
-      <DependentUpon>PDFList.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -188,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -199,28 +180,16 @@
     <None Include="Resources\dwg_icon.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="AcroPDFLib">
-      <Guid>{05BFD3F1-6319-4F30-B752-C7A22889BCC4}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="AxAcroPDFLib">
-      <Guid>{05BFD3F1-6319-4F30-B752-C7A22889BCC4}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>aximp</WrapperTool>
-      <Isolated>False</Isolated>
-    </COMReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="bin\Debug\icon\file_pdf.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Resources\icon\file_pdf.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
