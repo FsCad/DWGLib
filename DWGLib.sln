@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DWGLib", "DWGLib.csproj", "
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Installer", "..\Installer\Installer.vdproj", "{D969ADEB-79AB-4AA9-A5D4-EAC400E4CE2C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlideControl", "..\SlideControl\SlideControl.csproj", "{DA481124-62F5-4419-88CE-F3BA3B9C366A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{E72BBF9C-3D6E-40B6-BA05-B0E755328E23}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D969ADEB-79AB-4AA9-A5D4-EAC400E4CE2C}.Debug|Any CPU.ActiveCfg = Debug
 		{D969ADEB-79AB-4AA9-A5D4-EAC400E4CE2C}.Release|Any CPU.ActiveCfg = Release
+		{DA481124-62F5-4419-88CE-F3BA3B9C366A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA481124-62F5-4419-88CE-F3BA3B9C366A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA481124-62F5-4419-88CE-F3BA3B9C366A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA481124-62F5-4419-88CE-F3BA3B9C366A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

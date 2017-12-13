@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ThumnailProcessDlg));
             this.FileBrowser = new System.Windows.Forms.Button();
             this.startProcess = new System.Windows.Forms.Button();
@@ -36,6 +37,7 @@
             this.CurrentProcessLabel = new System.Windows.Forms.Label();
             this.bgWorker = new System.ComponentModel.BackgroundWorker();
             this._processPer = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // FileBrowser
@@ -116,6 +118,9 @@
             this._processPer.Text = "-- %";
             this._processPer.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
+            // timer1
+            // 
+            // 
             // ThumnailProcessDlg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -149,5 +154,6 @@
         private System.Windows.Forms.Label CurrentProcessLabel;
         private System.ComponentModel.BackgroundWorker bgWorker;
         private System.Windows.Forms.Label _processPer;
+        private System.Windows.Forms.Timer timer1;
     }
 }

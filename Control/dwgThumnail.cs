@@ -17,32 +17,19 @@ using DWGLib.Class;
 
 namespace DWGLib.Controls
 {
-    public partial class DwgThumnail : UserControl
+    public partial class DwgThumnail : UserControl,IDisposable
     {
         public string filePath = "";
        
         public DwgThumnail()
         {
             InitializeComponent();
-            Debug.WriteLine("Object Created");
-        }
-
-        private void DwgThumnail_Click(object sender, EventArgs e)
-        {
-            MouseEventArgs tempEvt = e as MouseEventArgs;
-            if (tempEvt.Button == MouseButtons.Right)
-            {
-                this.ContextMenu.Show(this, tempEvt.Location);
-            }
-            else {
-            }
         }
         private void Thumnail_Mouse_Enter(object sender, EventArgs e)
         {
             PictureBox PictureBox = (PictureBox)sender;
             this.BorderStyle = BorderStyle.FixedSingle;
         }
-
         private void Thumbnail_MouseLeave(object sender, EventArgs e)
         {
             PictureBox PictureBox = (PictureBox)sender;
@@ -63,22 +50,27 @@ namespace DWGLib.Controls
         {
             PictureBox pictureBox = sender as PictureBox;
             this.DwgTooltip.ToolTipIcon = ToolTipIcon.None;
-            this.DwgTooltip.Show(this.FileName.Text, pictureBox, 2000);
+            this.DwgTooltip.Show(this.FileName.Text, pictureBox, 1000);
         }
-
         private void DragDwgFile(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            
-            if(System.Windows.Forms.Control.MouseButtons == System.Windows.Forms.MouseButtons.Left)
+            MyDropTarget Target = new MyDropTarget(this.filePath);
+            if (System.Windows.Forms.Control.MouseButtons == System.Windows.Forms.MouseButtons.Left)
             {
-                Autodesk.AutoCAD.ApplicationServices.Application.DoDragDrop(this, this, System.Windows.Forms.DragDropEffects.All, new MyDropTarget(this.filePath));
+                Autodesk.AutoCAD.ApplicationServices.Application.DoDragDrop(this, this, System.Windows.Forms.DragDropEffects.Copy, Target);
             }
         }
 
-        private void _ContextMenu_Item_Click(object sender, EventArgs e)
+        private void OpenDWG_File(object sender, EventArgs e)
         {
-
-            this.ContextMenu.Hide();
+            string FilePath = this.filePath;
+            Process.Start(FilePath);
+        }
+        public new void Dispose(bool disposing)
+        {
+            this.Thumnail.Dispose();
+            this.FileName.Dispose();
+            base.Dispose(disposing);
         }
     }
 }

@@ -10,19 +10,14 @@ using System.Drawing;
 using System.Reflection.Emit;
 
 using Autodesk.AutoCAD.ApplicationServices;
-using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Runtime;
-using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Windows;
-using System.Diagnostics;
 //using Microsoft.WindowsAPICodePack.Shell;
 
 using DWGLib;
 using DWGLib.Class;
 using DWGLib.Dialog;
 using DWGLib.Controls;
-using DWGLib.UI;
 using DWGLib.init;
 
 namespace DWGLib.Command
@@ -37,24 +32,25 @@ namespace DWGLib.Command
             AboutDlg.ShowDialog();
         }
     }
+
     public class LibConfig
     {
-        [CommandMethod("libconfig")]
+        [CommandMethod("libcfg")]
         public static void SettingDialog()
         {
             Form form = new Form();
             Setting settingControl = new Setting();
-            form.Size = new Size(310, 525);
+            form.Size = new Size(300, 525);
 
             form.MaximizeBox = false;
             form.MinimizeBox = false;
             form.FormBorderStyle = FormBorderStyle.FixedSingle;
-            //form.MaximumSize = new Size(310, 525); 
-            //form.MinimumSize = new Size(310, 525);
+
             form.Icon = DWGLib.Properties.Resources.logo;
+            
             settingControl.Dock = DockStyle.Fill;
             form.Controls.Add(settingControl);
-            form.ShowDialog();
+            form.Show();
         }
     }
     public class ThumnailProcess
@@ -75,40 +71,39 @@ namespace DWGLib.Command
             thumnailProcessDlg.Show();
         }
     }
-    public class PDFListCommand
+    public class SettingCommand
     {
-        public PaletteSet PDFPalette;
-        public PDFListCommand()
-        {
+        string LibPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\Resource\library";
+        string PDFPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\Resource\PDF";
+        string FontPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\Resource\Extra\Fonts";
+        string PluginPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\Resource\Extra\Plugins";
+        string PrintStylePath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\Resource\Extra\PrintStyles";
 
-            PDFPalette = new PaletteSet("中建深装制图标准", Guid.NewGuid());
-            PDFPalette.Icon = DWGLib.Properties.Resources.logo;
-            Control pdfList = (new PDFList()).OutterPanel;
-            pdfList.Dock = DockStyle.Fill;
-            PDFPalette.Add("制图标准", pdfList);
+        [CommandMethod("libfld")]
+        public void OpenLibFolder()
+        {
+            System.Diagnostics.Process.Start(LibPath);
         }
-        [CommandMethod("PDFLib")]
-        public void PDFLibDialog()
+        [CommandMethod("pdffld")]
+        public void OpenPDFFolder()
         {
+            System.Diagnostics.Process.Start(PDFPath);
+        }
+        [CommandMethod("printstyfld")]
+        public void OpenPrintStyleFolder()
+        {
+            System.Diagnostics.Process.Start(PrintStylePath);
+        }
+        [CommandMethod("fontfld")]
+        public void OpenFontFolder()
+        {
+            System.Diagnostics.Process.Start(FontPath);
+        }
+        [CommandMethod("pluginfld")]
+        public void OpenPluginFolder()
+        {
+            System.Diagnostics.Process.Start(PluginPath);
 
-            if (PDFPalette.Visible)
-            {
-                PDFPalette.Visible = false;
-            }else
-            {
-
-                PDFPalette.Visible = true;
-            }
-            /**
-            PDFList PDFListInstant = new PDFList();
-            form.MaximumSize = new Size(360, 600);
-            form.MinimumSize = new Size(360, 600);
-            form.Padding = new Padding(10, 10, 10, 10);
-            form.Icon = DWGLib.Properties.Resources.logo;
-            PDFListInstant.Dock =  DockStyle.Fill;
-            form.Controls.Add(PDFListInstant);
-            form.ShowDialog();
-            **/
         }
     }
 }

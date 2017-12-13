@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Reflection.Emit;
+using System.Text.RegularExpressions;
 
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
@@ -24,9 +25,8 @@ namespace DWGLib.Class
     public class ThumnailProcess
     {
         public ThumnailProcessDlg thumnailProcessDlg;
-        Editor ed = null;
         List<string> Files = new List<string>();
-        int DirectoryCount = 1;
+        public string root = "";
         public ThumnailProcess() { }
         public int Processing(string file)
         {
@@ -48,43 +48,6 @@ namespace DWGLib.Class
                 return -1;
             }
         }
-        //root为一级目录
-
-        private void SearchFileByPrefix(string root,string prefix)
-        {
-
-            string[] strArr = Directory.GetDirectories(root);
-            string[] files = Directory.GetFiles(root);
-            List<string> _files = new List<string>() { };
-            for (int i = 0; i < files.Length; i++)
-            {
-                if (Path.GetExtension(files[i]).ToLower() == prefix)
-                {
-                    _files.Add(files[i]);
-                }
-            }
-            this.Files.AddRange(_files);
-            for (int i = 0; i < strArr.Length; i++)
-            {
-                SearchFileByPrefix(strArr[i], prefix);
-            }
-        }
-        public List<string> GetAllDwgFilesByPath(string root)
-        {
-            //应用递归获取文件夹目录下的文件
-            if (!Directory.Exists(root))
-            {
-                MessageBox.Show("选择的路径名称无效");
-                return Files;
-            }
-            //只能递归三个层级
-            if (this.DirectoryCount > 3)
-            {
-                MessageBox.Show("搜索路径过长，请减少文件路径长度");
-            }
-            this.SearchFileByPrefix(root, ".dwg");
-            return this.Files;
-        }
         private bool GernateDwgThumnail(string path)
         {
 
@@ -96,6 +59,7 @@ namespace DWGLib.Class
                 db.ReadDwgFile(path, FileOpenMode.OpenForReadAndReadShare, true, "13343408355x");
                 db.UpdateThumbnail = 1;
                 db.CloseInput(true);
+                
                 //Transaction tra = db.TransactionManager.StartOpenCloseTransaction();
                 Transaction tra = db.TransactionManager.StartTransaction();
                 try
@@ -103,13 +67,14 @@ namespace DWGLib.Class
                     BlockTableRecord mSpaceRecord = tra.GetObject(SymbolUtilityServices.GetBlockModelSpaceId(db), OpenMode.ForRead) as BlockTableRecord;
                     if (mSpaceRecord != null)
                     {
+                        
                         Layout msLayout = tra.GetObject(mSpaceRecord.LayoutId, OpenMode.ForRead) as Layout;
                         if (msLayout != null)
                         {
                             Bitmap thumnail = db.ThumbnailBitmap;
                             if (thumnail != null)
                             {
-                                Bitmap newThumnail = ResizeTo(thumnail, new Size(thumnail.Width * 4, thumnail.Height * 4));
+                                Bitmap newThumnail = ResizeTo(thumnail, new Size(thumnail.Width * 2, thumnail.Height * 2));
                                 try
                                 {
                                     newThumnail.Save(dir + "/" + fileName + ".jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
@@ -158,9 +123,10 @@ namespace DWGLib.Class
         }
         private static Bitmap ResizeTo(Bitmap bitmap, Size size)
         {
-            Bitmap newImage = new Bitmap(size.Width * 3, size.Height * 3);
+            
+            Bitmap newImage = new Bitmap(size.Width, size.Height);
             Graphics graphic = Graphics.FromImage((System.Drawing.Image)newImage);
-            graphic.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
+            graphic.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
             graphic.DrawImage(bitmap, 0, 0, newImage.Width, newImage.Height);
             return newImage;
         }

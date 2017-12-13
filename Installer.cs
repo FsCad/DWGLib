@@ -7,122 +7,167 @@ using System.Linq;
 using System.Threading.Tasks;
 using Autodesk.AutoCAD.Customization;
 using Autodesk.AutoCAD.Runtime;
+using Autodesk.AutoCAD.GraphicsInterface;
 using Autodesk.AutoCAD.Windows;
+using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.DatabaseServices;
 using System.Windows.Forms;
 using System.IO;
+using System.Reflection;
+using Microsoft.Win32;
+using Autodesk.AutoCAD.EditorInput;
+using System.Security.AccessControl;
 
-using DWGLib.UI;
 using DWGLib.Command;
 using DWGLib.Class;
 namespace DWGLib.init
 {
-    [RunInstaller(true)]
-    public partial class Installer : System.Configuration.Install.Installer
+    public class PluginInit:IExtensionApplication
     {
-        public Installer()
+        //插件加载的时候会运行下面的代码
+        string PluginPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+        string RootPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+        string AppName = "CSCECDECLib";
+        Editor ed = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor;
+        string ToolbarPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\cscecdectoolbar.cuix";
+        System.Windows.Forms.Timer Tim = new Timer();
+        int Signal = 1;
+        void IExtensionApplication.Initialize()
         {
-            InitializeComponent();
+            CreateToolbar();
+            ed.WriteMessage("\n中建深装幕墙图库插件加载成功");
+            Tim.Interval = 1000;
+           // Tim.Tick += Tim_Tick; ;
+            //Tim.Start();
+            _Palette.CreatePletteset();
         }
-        protected override void OnAfterInstall(IDictionary savedState)
+
+        private void Tim_Tick(object sender, EventArgs e)
         {
-            System.Version Ver = Autodesk.AutoCAD.ApplicationServices.Application.Version;
-            string Dest = @"%PROGRAMFILES%\Autodesk\ApplicationPlugins";
-            string Source = Environment.CurrentDirectory;
-            string SourceLibDir = Source + @"\library";
-            string SourcePDFDir = Source + @"\PDF";
-
-            string DestLibDir = Dest + @"\library";
-            string DestPDFDir = Dest + @"\PDF";
-
-            if (Directory.Exists(SourceLibDir) || Directory.Exists(SourcePDFDir))
+           if(Signal % 1212 == 0)
             {
-                Directory.Move(SourceLibDir, DestLibDir);
-                Directory.Move(SourcePDFDir, DestPDFDir);
-
-            }else
-            {
-                MessageBox.Show("图库文件或者文档文件目录不存在");
+                Tim.Stop();
+                Autodesk.AutoCAD.ApplicationServices.Application.Quit();
             }
-            base.OnAfterInstall(savedState);
+            Signal++;
         }
-        public override void Commit(IDictionary savedState)
-        {
-            base.Commit(savedState);
-            string installdir = savedState["TargetDir"].ToString();
-            string installPath = installdir + "DWGLib.dll";
-            AddReg("DWGLib", "幕墙图库软件", installPath);
-        }
-        public override void Install(IDictionary stateSaver)
-        {
-            base.Install(stateSaver);
-            stateSaver.Add("TargetDir", Context.Parameters["TargetDir"].ToString());
 
-        }
-        public override void Uninstall(IDictionary savedState)
+        [CommandMethod("stdsys")]
+        public void DwgStdSystem()
         {
-            DelFromReg("DWGLib");
-            base.Uninstall(savedState);
+            if (_Palette.StdSysPalette.Visible)
+                _Palette.StdSysPalette.Visible = false;
+            else
+                _Palette.StdSysPalette.Visible = true;
         }
-        private static void AddReg(string dname, string desc, string dpath)
+        [CommandMethod("stdblock")]
+        public void DwgStdBlock()
+        {
+            if (_Palette.StdBlockPalette.Visible)
+                _Palette.StdBlockPalette.Visible = false;
+            else
+                _Palette.StdBlockPalette.Visible = true;
+        }
+        [CommandMethod("regplugin")]
+        public void Register()
         {
             try
             {
-                RegistryKey LocalMachine = Registry.LocalMachine;
-                //还不是很理解
-                RegistryKey Application = LocalMachine.OpenSubKey("", true);
-                RegistryKey Program = Application.CreateSubKey(dname);
-                Program.SetValue("DESCRIPTION", desc, Microsoft.Win32.RegistryValueKind.String);
-                Program.SetValue("LOADCTRLS", 14, Microsoft.Win32.RegistryValueKind.DWord);
-                Program.SetValue("LOADER", dpath, Microsoft.Win32.RegistryValueKind.String);
-                Program.SetValue("MANAGED", 1, Microsoft.Win32.RegistryValueKind.DWord);
+                System.Version Ver = Autodesk.AutoCAD.ApplicationServices.Application.Version;
+                //版本低于2010的软件
+                if (Ver.Major < 18)
+                {
+                    Autodesk.AutoCAD.ApplicationServices.Application.ShowAlertDialog("插件不适合当前CAD版本，请安装2010及以上版本的AutoCAD软件");
+                }
+                else
+                {
+                    this.RegeisterPlugin();
+                }
             }
-            catch
+            catch (Autodesk.AutoCAD.Runtime.Exception Ex)
             {
-
-            }
-
-        }
-        private static void DelFromReg(string dname)
-        {
-            RegistryKey rk = Registry.LocalMachine;
-            RegistryKey rk0 = rk.OpenSubKey("", true);
-            string[] subkeys = rk0.GetSubKeyNames();
-            List<string> keys = new List<string>();
-            keys.AddRange(subkeys);
-            if (keys.Contains(dname))
-            {
-                rk0.DeleteSubKeyTree(dname);
+                Autodesk.AutoCAD.ApplicationServices.Application.ShowAlertDialog(Ex.Message.ToString());
             }
         }
-        
-    }
-    public class PluginInit:IExtensionApplication
-    {
-        public static PaletteSet PaletteLibrary;
-        void IExtensionApplication.Initialize()
+        [CommandMethod("unregplugin")]
+        public void UnRegister()
         {
-            LoadCUIFile CuiFile = new LoadCUIFile();
-           // CuiFile.Load();
-            System.Version Ver = Autodesk.AutoCAD.ApplicationServices.Application.Version;
-
-            _Palette Palette = new _Palette();
-           PaletteLibrary = Palette.PaletteLibrary;
+            this.UnRegisterPlugin(AppName);
         }
-        [CommandMethod("hudson")]
-        public static void DwgLibrary()
+        private void RegeisterPlugin()
         {
-            if (PaletteLibrary.Visible == false)
+
+            Microsoft.Win32.RegistryKey AcadPluginKey = this.GetAcadAppKey(true);
+            if (AcadPluginKey != null)
             {
-                PaletteLibrary.Visible = true;
+                Microsoft.Win32.RegistryKey AcadPluginInspectorKey = AcadPluginKey.CreateSubKey(AppName);
+                AcadPluginInspectorKey.SetValue("DESCRIPTION", "CSCECDEC DWG Library", Microsoft.Win32.RegistryValueKind.String);
+                AcadPluginInspectorKey.SetValue("LOADCTRLS", 2, Microsoft.Win32.RegistryValueKind.DWord);
+                AcadPluginInspectorKey.SetValue("LOADER", PluginPath, Microsoft.Win32.RegistryValueKind.String);
+                AcadPluginInspectorKey.SetValue("MANAGED", 1, Microsoft.Win32.RegistryValueKind.DWord);
+
+                MessageBox.Show("注册成功");
             }
             else
             {
-                PaletteLibrary.Visible = false;
+                MessageBox.Show("注册失败");
+            }
+            AcadPluginKey.Close();
+        }
+        private void UnRegisterPlugin(string dname)
+        {
+            Microsoft.Win32.RegistryKey AcadPluginKey = GetAcadAppKey(true);
+            if (AcadPluginKey != null)
+            {
+                AcadPluginKey.DeleteSubKey(AppName);
+                AcadPluginKey.Close();
+                MessageBox.Show("软件卸载成功");
+            }
+            else
+            {
+                MessageBox.Show("软件卸载失败");
             }
         }
+        private void DeleteDirectory(string Path)
+        {
+            if (!Directory.Exists(Path)) return;
+
+        }
+        private Microsoft.Win32.RegistryKey GetAcadAppKey(bool forWrite)
+        {
+            string User = Environment.UserDomainName + "\\" + Environment.UserName;
+            string RootKey = Autodesk.AutoCAD.DatabaseServices.HostApplicationServices.Current.RegistryProductRootKey;
+            Microsoft.Win32.RegistryKey AcadKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(RootKey);
+            RegistryAccessRule Role = new RegistryAccessRule(User, RegistryRights.WriteKey | RegistryRights.Delete | RegistryRights.ReadKey, AccessControlType.Allow);
+            RegistrySecurity Rs = new RegistrySecurity();
+            Rs.AddAccessRule(Role);
+            Microsoft.Win32.RegistryKey AppKey = AcadKey.OpenSubKey("Applications", forWrite);
+            if (AppKey == null)
+            {
+                try
+                {
+                    Microsoft.Win32.RegistryKey Key = AcadKey.CreateSubKey("Applications", RegistryKeyPermissionCheck.ReadWriteSubTree, Rs);
+                    return Key;
+                }
+                catch (System.Exception Ex)
+                {
+                    MessageBox.Show(Ex.Message + "注册失败。详情请查看软件的帮助文档");
+                    return AppKey;
+                }
+            }
+            else
+            {
+                return AppKey;
+            }
+        }
+        public void CreateToolbar()
+        {
+            //TODO
+           // Autodesk.AutoCAD.ApplicationServices.Application.LoadPartialMenu(ToolbarPath);
+        }
+
         void IExtensionApplication.Terminate()
         {
-            MessageBox.Show("安装程序失败");
         }
     }
 

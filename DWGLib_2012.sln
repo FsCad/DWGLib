@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThumnailPreProcess", "ThumnailPreProcess\ThumnailPreProcess.csproj", "{12CE1668-6575-490E-A062-5BAD666F133E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DWGLib_2012", "DWGLib_2012.csproj", "{388CFEEF-49FF-4D09-A3F5-919BD3E672BA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{12CE1668-6575-490E-A062-5BAD666F133E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12CE1668-6575-490E-A062-5BAD666F133E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12CE1668-6575-490E-A062-5BAD666F133E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12CE1668-6575-490E-A062-5BAD666F133E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{388CFEEF-49FF-4D09-A3F5-919BD3E672BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{388CFEEF-49FF-4D09-A3F5-919BD3E672BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{388CFEEF-49FF-4D09-A3F5-919BD3E672BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{388CFEEF-49FF-4D09-A3F5-919BD3E672BA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

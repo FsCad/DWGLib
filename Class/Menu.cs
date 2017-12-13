@@ -19,6 +19,7 @@ namespace DWGLib.UI
 {
     class LoadCUIFile {
       
+       
         public string cuiPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)+ @"\ui.cuix";
         Editor ed = Application.DocumentManager.MdiActiveDocument.Editor;
         public LoadCUIFile()

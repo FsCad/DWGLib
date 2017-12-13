@@ -1,23 +1,18 @@
 ﻿
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Drawing;
-using System.Reflection.Emit;
+using System.Collections.Generic;
 
-
-using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Windows;
 using System.Diagnostics;
-//using Microsoft.WindowsAPICodePack.Shell;
+using System.Linq;
 
 using DWGLib;
 using DWGLib.Controls;
@@ -26,160 +21,39 @@ namespace DWGLib.Class
 {
     public class _Palette
     {
-        public PaletteSet PaletteLibrary;
+        public static PaletteSet StdSysPalette, StdBlockPalette;
+        static string StdSyslibPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\Resource\library\StdSys";
+        static string StdBlockSysPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\Resource\library\StdBlock";
         public _Palette()
         {
-            this.PaletteLibrary = new PaletteSet("中建深圳装饰", Guid.NewGuid());
-            this.PaletteLibrary.Size = new Size(600, 600);
-            this.PaletteLibrary.MinimumSize = new Size(260, 400);
-            this.PaletteLibrary.Icon = DWGLib.Properties.Resources.logo;
-            InitLibrary(this.PaletteLibrary);
+
         }
-        private static void InitLibrary(PaletteSet myPaletteSet)
+        public static void CreatePletteset()
         {
-            string libraryPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)+ @"\Resource\library";
-            if (!Directory.Exists(libraryPath))
-            {
-                MessageBox.Show("无法加载图库", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            string[] strArr = Directory.GetDirectories(libraryPath);
-            for (int i = 0; i < strArr.Length; i++)
-            {
-                Panel customPanel = new Panel();
-                string paletteName = GetPaletteName(Path.GetFileNameWithoutExtension(strArr[i]));
-                myPaletteSet.Add(paletteName, customPanel);
-                string[] strArr2 = Directory.GetDirectories(strArr[i]);
-
-                if (strArr2.Length != 0)
-                {
-                    TabControl Tab = new TabControl();
-                    Tab.Dock = DockStyle.Fill;
-                    for (int j = 0; j < strArr2.Length; j++)
-                    {
-                        string FolderName = Path.GetFileNameWithoutExtension(strArr2[j]);
-                        string tabName = GetTabName(FolderName);
-                        TabPage tabPage = new TabPage(tabName);
-                        Tab.Multiline = true;
-                        Tab.Controls.Add(tabPage);
-
-                        FlowLayoutPanel floatPanel = new FlowLayoutPanel();
-
-                        floatPanel.Dock = DockStyle.Fill;
-                        floatPanel.FlowDirection = System.Windows.Forms.FlowDirection.LeftToRight;
-
-                        Panel panel = new Panel();
-                        panel.Dock = DockStyle.Fill;
-                        panel.BackColor = Color.White;
-                        panel.AutoScroll = true;
-
-                        panel.Controls.Add(floatPanel);
-                        tabPage.Controls.Add(panel);
-                        panel.Padding = new Padding(20, 20, 20, 20);
-                        string[] filePath = Directory.GetFiles(strArr2[j]);
-                        if (filePath.Length != 0)
-                        {
-                           // List<Control> ItemList = new List<Control>();
-                            for (int k = 0; k < filePath.Length; k++)
-                            {
-                                string FileExtension = Path.GetExtension(filePath[k]).ToLower();
-                                string FileName = Path.GetFileNameWithoutExtension(filePath[k]);
-                                string Directory = Path.GetDirectoryName(filePath[k]);
-
-                                if (FileExtension == ".jpg")
-                                {
-                                    DwgThumnail item = new DwgThumnail();
-                                    item.Width = 80;
-                                    item.Height = 90;
-                                   
-                                    item.filePath = Directory + "/" + FileName + ".dwg";
-                                    item.FileName.Text = FileName;
-                                    item.Thumnail.Height = 60;
-                                    item.Thumnail.Width = 70;
-                                    item.Thumnail.Margin = new Padding(5, 10, 5, 10);
-                                    item.Thumnail.BackgroundImage = Bitmap.FromFile(filePath[k]);
-                                    floatPanel.Controls.Add(item);
-
-                                }
-                            }
-                        }
-                    }
-                    customPanel.Controls.Add(Tab);
-                }
-                else
-                {
-                    string[] filePath = Directory.GetFiles(strArr[i]);
-                    if (filePath.Length != 0)
-                    {
-                        FlowLayoutPanel floatPanel = CreateFloatLayoutPanel();
-                        floatPanel.AutoScroll = true;
-                        floatPanel.Dock = DockStyle.Fill;
-                        floatPanel.Padding = new Padding(20, 20, 20, 20);
-                        customPanel.Controls.Add(floatPanel);
-                        for (int k = 0; k < filePath.Length; k++)
-                        {
-                            string FileExtension = Path.GetExtension(filePath[k]).ToLower();
-                            string FileName = Path.GetFileNameWithoutExtension(filePath[k]);
-                            string Directory = Path.GetDirectoryName(filePath[k]);
-                            if (FileExtension == ".jpg")
-                            {
-                                DwgThumnail item = new DwgThumnail();
-                                item.Width = 70;
-                                item.Height = 80;
-                                item.filePath = Directory + "/" + FileName + ".dwg";
-                                item.FileName.Text = FileName;
-                                item.Thumnail.Height = 60;
-                                item.Thumnail.Width = 70;
-                                item.Thumnail.BackgroundImage = Bitmap.FromFile(filePath[k]);
-                                floatPanel.Controls.Add(item);
-
-                            }
-                        }
-                    }
-                }
-            }
+            StdBlockPalette = CreateStdBlockPalette();
+            StdSysPalette = CreateStdSysPalette();
         }
-        private static string GetTabName(string FolderName) {
-            string[] temp = FolderName.Split('_');
-            if (temp.Length == 1)
-            {
-                return temp[0];
-            }
-            else
-            {
-                return temp[1];
-            }
-        }
-        private static string GetPaletteName(string FolderName) {
-            return GetTabName(FolderName);
-        }
-        private static Database GetFileByPrefix(string path, string prefix)
+        public static PaletteSet CreateStdSysPalette()
         {
-
-            Database db = new Database(false, false);
-            if (Path.GetExtension(path).ToLower() == prefix)
-            {
-                try
-                {
-                    db.ReadDwgFile(path, FileOpenMode.OpenForReadAndReadShare, true, "");
-                    db.UpdateThumbnail = 1;
-                    db.CloseInput(true);
-                }
-                catch
-                {
-
-                }
-            }
-            return db;
+            PaletteSet StdSysPalette;
+            StdSysPalette = new PaletteSet("中建深圳装饰-幕墙节点标准系统",new Guid("{5734E6AA-31A1-4E3C-874A-B65A76625851}"));
+            StdSysPalette.Icon = Properties.Resources.logo;
+            LibListDropDown LibDropList = new LibListDropDown(StdSyslibPath);
+            LibDropList.Dock = DockStyle.Fill;
+            StdSysPalette.Add("幕墙标准系统", LibDropList);
+            StdSysPalette.Dock = DockSides.Left;
+            return StdSysPalette;
         }
-        private static FlowLayoutPanel CreateFloatLayoutPanel()
+        public static PaletteSet CreateStdBlockPalette()
         {
-            FlowLayoutPanel floatPanel = new FlowLayoutPanel();
-            floatPanel.Dock = DockStyle.Fill;
-            floatPanel.AutoScroll = true;
-            floatPanel.BackColor = Color.White;
-            floatPanel.FlowDirection = System.Windows.Forms.FlowDirection.LeftToRight;
-            return floatPanel;
+            PaletteSet StdBlockPalette;
+            StdBlockPalette = new PaletteSet("中建深圳装饰-幕墙标准图块", new Guid("{CB033F76-F29F-4FF0-9C41-44FB41B326E4}"));
+            StdBlockPalette.Icon = Properties.Resources.logo;
+            LibListDropDown LibDropList = new LibListDropDown(StdBlockSysPath);
+            LibDropList.Dock = DockStyle.Fill;
+            StdBlockPalette.Add("幕墙标准图块", LibDropList);
+            StdBlockPalette.Dock = DockSides.Left;
+            return StdBlockPalette;
         }
     }
 }

@@ -22,12 +22,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
@@ -61,6 +62,10 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="PresentationFramework" />
+    <Reference Include="SlideCtrl, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\AutoCAD.Slide.Control.1.0.2\lib\net45\SlideCtrl.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Configuration.Install" />
@@ -82,13 +87,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class\PDFList1.cs" />
+    <Compile Include="Class\SearchFiles.cs" />
+    <Compile Include="Class\StanderFileList.cs" />
     <Compile Include="Class\_Palette.cs" />
-    <Compile Include="Control\PDFThumnail.cs">
+    <Compile Include="Control\StanderThumnail.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Control\PDFThumnail.Designer.cs">
-      <DependentUpon>PDFThumnail.cs</DependentUpon>
+    <Compile Include="Control\StanderThumnail.Designer.cs">
+      <DependentUpon>StanderThumnail.cs</DependentUpon>
     </Compile>
     <Compile Include="Dialog\AboutDlg.cs">
       <SubType>Form</SubType>
@@ -103,6 +109,12 @@
       <DependentUpon>dwgThumnail.cs</DependentUpon>
     </Compile>
     <Compile Include="Class\ThumnailProcess.cs" />
+    <Compile Include="Dialog\PathSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialog\PathSelect.Designer.cs">
+      <DependentUpon>PathSelect.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialog\ThumnailProcessDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -118,12 +130,6 @@
     <Compile Include="Command.cs" />
     <Compile Include="Class\Menu.cs" />
     <Compile Include="Class\MyDropTarget.cs" />
-    <Compile Include="Control\CustomPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Control\CustomPanel.Designer.cs">
-      <DependentUpon>CustomPanel.cs</DependentUpon>
-    </Compile>
     <Compile Include="Control\Setting.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -143,8 +149,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Control\PDFThumnail.resx">
-      <DependentUpon>PDFThumnail.cs</DependentUpon>
+    <EmbeddedResource Include="Control\StanderThumnail.resx">
+      <DependentUpon>StanderThumnail.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialog\AboutDlg.resx">
       <DependentUpon>AboutDlg.cs</DependentUpon>
@@ -152,11 +158,11 @@
     <EmbeddedResource Include="Control\dwgThumnail.resx">
       <DependentUpon>dwgThumnail.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Control\CustomPanel.resx">
-      <DependentUpon>CustomPanel.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Control\Setting.resx">
       <DependentUpon>Setting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialog\PathSelect.resx">
+      <DependentUpon>PathSelect.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -184,6 +190,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="bin\Debug\Resources\icon\file_pdf.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\file_pdf.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\icon\pdf_file.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -18,6 +18,7 @@ namespace DWGLib.Dialog
         public bool isProcessed;
         public string CurrentProcess;
         ThumnailProcess thumnailProcess;
+        public SearchFiles SearchFiles;
         private string filePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\" + "output.log";
         private StreamWriter StreamWriter;
         List<string> fileList;
@@ -25,6 +26,7 @@ namespace DWGLib.Dialog
         {
             InitializeComponent();
             this.thumnailProcess = new ThumnailProcess();
+            this.SearchFiles = new SearchFiles();
             this.startProcess.Enabled = false;
         }
         private void Folder_Browser(object sender, EventArgs e)
@@ -60,7 +62,10 @@ namespace DWGLib.Dialog
 
         private void BgWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            fileList = this.thumnailProcess.GetAllDwgFilesByPath(this.RootPath.Text);
+            this.SearchFiles.RootPath = this.RootPath.Text;
+            this.SearchFiles.Depth = 3;
+            this.SearchFiles.SearchFileByPrefix(".dwg", this.SearchFiles.RootPath);
+            fileList = this.SearchFiles.Files;
             int fileTotal = fileList.Count;
             for(int i = 0; i < fileTotal; i++)
             {
@@ -102,11 +107,11 @@ namespace DWGLib.Dialog
             this._processPer.Text = "100%";
             this.progressBar.Value = 100;
             this.CurrentProcessLabel.Text = "处理完成";
-            this.FileBrowser.Enabled = false;
             this.startProcess.Enabled = false;
             this.StreamWriter.Close();
             this.StreamWriter.Dispose();
             this.isProcessed = false;
+            
             MessageBox.Show("处理完成,处理结果请查看文件：" + this.filePath);
         }
 
